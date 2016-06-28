@@ -2,12 +2,19 @@ import React, { Component } from 'react' //, PropTypes
 import { render } from 'react-dom'
 
 export default class App extends Component {
-  render() {
-    return <div>Работает!</div>
-  }
+	componentDidMount() {
+		this.updateCanvas();
+	}
+
+	updateCanvas() {
+		console.log('Load!');
+	}
+
+	render() {
+		return (
+			<canvas ref='canvas' width={500} height={500}></canvas>
+		);
+	}
 }
 
-render(
-  <App />,
-  document.getElementById('root')
-)
+render(<App />,	document.getElementById('root'));
