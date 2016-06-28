@@ -7,12 +7,21 @@ export default class App extends Component {
 	}
 
 	updateCanvas() {
-		console.log('Load!');
+		const canvas = this.refs.canvas,
+			ctx = canvas.getContext('2d');
+
+		let width = 700,
+			height = 500;
+
+		canvas.width = width;
+		canvas.height = height;
+
+		ctx.strokeRect(0, 0, width, height);
 	}
 
 	render() {
 		return (
-			<canvas ref='canvas' width={500} height={500}></canvas>
+			<canvas ref='canvas'></canvas>
 		);
 	}
 }
