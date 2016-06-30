@@ -1,21 +1,44 @@
 import React, { Component } from 'react'
 
 
+//настройки
+let width = 700, //ширина
+	height = 500, //высота
+	lineWidth = 1, //толщина линий
+	step = 20, //ширина клетки
+	lineColor = '#000', //цвет линий
+	bgColor = '#f3f3f3'; //цвет заливки поля
+
+
+//здесь будем хранить точки
+let points = [];
+
+//наполним массив точками
+for (let i = step; i < width; i += step) {
+	for (let j = step; j < height; j += step) {
+		points.push({
+			owner: null,
+			x: i,
+			y: j
+		});
+	}
+}
+
+
+
 export default class Canvas extends Component {
 	componentDidMount() {
 		this.drawField();
+		this.drawPoints();
+	}
+
+	handlerClick() {
+		console.log('click');
 	}
 
 	drawField() {
 		const canvas = this.refs.canvas,
 			ctx = canvas.getContext('2d');
-
-		let width = 700, //ширина
-			height = 500, //высота
-			lineWidth = 1, //толщина линий
-			step = 20, //ширина клетки
-			lineColor = '#000', //цвет линий
-			bgColor = '#f3f3f3'; //цвет заливки поля
 
 		canvas.width = width;
 		canvas.height = height;
@@ -44,23 +67,36 @@ export default class Canvas extends Component {
 			ctx.lineTo(width, i + 0.5);
 			ctx.stroke();
 		}
+	}
 
-
+	drawPoints() {
 		//рисуем пустые точки
-		for (let i = step; i < width; i += step) {
-			for (let j = step; j < height; j += step) {
-				ctx.beginPath();
-				ctx.arc(i + 0.5, j + 0.5, 4, 0, Math.PI * 2, true);
-				ctx.fill()
-				ctx.stroke();
-			}
-		}
+		const ctx = this.refs.canvas.getContext('2d');
 
+		for (let i = 0, max = points.length; i < max; i++) {
+			ctx.beginPath();
+			ctx.arc(points[i].x + 0.5, points[i].y + 0.5, 4, 0, Math.PI * 2, true);
+
+			switch (points[i].owner) {
+				case 1:
+					ctx.fillStyle = 'red';
+					break;
+				case 2:
+					ctx.fillStyle = 'blue';
+					break;
+				default:
+					ctx.fillStyle = bgColor;
+					break;
+			}
+
+			ctx.fill()
+			ctx.stroke();
+		}
 	}
 
 	render() {
 		return (
-			<canvas ref='canvas'></canvas>
+			<canvas onClick={this.handlerClick} ref='canvas'></canvas>
 		);
 	}
 }
