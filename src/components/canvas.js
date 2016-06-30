@@ -32,8 +32,10 @@ export default class Canvas extends Component {
 		this.drawPoints();
 	}
 
-	handlerClick() {
-		console.log('click');
+	handlerClick(e) {
+		let x = e.clientX - this.refs.canvas.offsetLeft,
+			y = e.clientY - this.refs.canvas.offsetTop;
+		console.log(x , y);
 	}
 
 	drawField() {
@@ -96,7 +98,7 @@ export default class Canvas extends Component {
 
 	render() {
 		return (
-			<canvas onClick={this.handlerClick} ref='canvas'></canvas>
+			<canvas onClick={this.handlerClick.bind(this)} ref='canvas'></canvas>
 		);
 	}
 }
